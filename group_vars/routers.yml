@@ -1,0 +1,24 @@
+---
+
+# -----------------
+# Role: nto.network
+# -----------------
+
+network_dns:
+- '80.58.61.250'
+- '80.58.61.254'
+
+network_ether_interfaces:
+  eth0:
+    bootproto: dhcp
+
+network_wifi_interfaces:
+  wlan0:
+    bootproto: static
+    address:   192.168.42.1/24
+    ssid:      PI4STARS
+    password:  20colibri15
+    dhcpd:
+      from: '192.168.42.10'
+      to:   '192.168.42.50'
+      gw:   '192.168.42.1'

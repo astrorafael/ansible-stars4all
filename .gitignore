@@ -1,3 +1,4 @@
+.vault_pass.txt 
 group_vars/all/1credentials.yml
 group_vars/consumers/locations.yml
 inventory/hosts
