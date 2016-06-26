@@ -1,0 +1,22 @@
+---
+
+# -----------------
+# Role: nto.tessmon 
+# -----------------
+
+tessmon_monitor_broker: yes
+tessmon_broker_checks:
+- name: astrix
+  ensure: present
+  host:   '{{ cred_tessdb_broker }}'
+  port:   '{{ cred_tessdb_port }}'
+  user:   '{{ cred_tessdb_username }}'
+  passwd: '{{ cred_tessdb_password }}'
+
+
+
+tessmon_monitor_traffic: yes
+tessmon_broker: '{{ cred_tessdb_broker }}'
+tessmon_port:   '{{ cred_tessdb_port }}'
+tessmon_user:   '{{ cred_tessdb_username }}'
+tessmon_passwd: '{{ cred_tessdb_password }}'

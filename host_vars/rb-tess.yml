@@ -1,0 +1,14 @@
+
+# -------------------------
+# Role: tersmitten.timezone 
+# -------------------------
+
+# Timezone settings
+timezone_zone: Etc/UTC
+
+# ---------------
+# Role: nto.monit
+# ---------------
+
+monit_collect_host:    '{{ cred_mmonit_host }}'
+

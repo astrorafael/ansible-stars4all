@@ -1,0 +1,8 @@
+#!/bin/bash
+# {{ ansible_managed }}
+
+# Step 1: collect MQTT traffic during {{ tessmon_timeout | int }} seconds
+/usr/bin/timeout {{ tessmon_timeout | int }} /usr/bin/mosquitto_sub -h {{ tessmon_broker }} -p {{ tessmon_port }} -u {{ tessmon_user }} -P {{ tessmon_passwd }} -t {{ tessmon_topic }} > /var/log/{{ tessmon_activity_file }}
+
+# Step 2: Analyze traffic from {{ tessmon_activity_file }}
+/usr/local/bin/check_tessmon -r /etc/tessmon/{{ tessmon_reference_file }} -o /var/log/{{ tessmon_logfile }} /var/log/{{ tessmon_activity_file }}

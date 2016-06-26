@@ -1,0 +1,64 @@
+---
+# tasks file for roles/nto.reports
+
+# - name: ensure reports dir is created
+#   file: >
+#     dest=/var/dbase/reports
+#     state=directory
+#     owner=root
+#     group=root
+#     mode=0755
+
+# - name: copy SQL files
+#   template: >
+#     dest=/usr/local/bin/{{ item }}
+#     src={{ item }}
+#     owner=root
+#     group=root
+#     mode=0755
+#   with_items:
+#   - tess_readings_daily_summary.sh
+#   - tess_readings_summary.sh
+#   - bulk_dump_by_instrument.sh
+#   - tess_sunrise_sunset.sh
+
+# - name: install sunrise/sunset historic
+#   cron: >
+#     name="TESS sunrise/sunset times" 
+#     minute=0
+#     hour=13
+#     user="root" 
+#     job="/usr/local/bin/tess_sunrise_sunset.sh"
+#     cron_file=tess_sunrise_sunset
+
+# - name: install readings summary
+#   cron: >
+#     name="readings summary" 
+#     minute=5
+#     hour=13
+#     user="root" 
+#     job="/usr/local/bin/tess_readings_summary.sh  > /var/dbase/reports/tess_readings_summary.csv"
+#     cron_file=tess_readings_summary
+
+# - name: install daily readings summary
+#   cron: >
+#     name="Daily readings summary" 
+#     minute=5
+#     hour=13
+#     user="root" 
+#     job="/usr/local/bin/tess_readings_daily_summary.sh  > /var/dbase/reports/tess_readings_daily_summary.txt"
+#     cron_file=tess_daily_readings_summary
+
+# Creates a cron file under /etc/cron.d
+- name: install bulk dump cron jobs
+  cron: >
+    name="bulk dump cron job for {{ item.name }}" 
+    minute={{ item.minute }} 
+    hour=13
+    user="root" 
+    job="/usr/local/bin/bulk_dump_by_instrument.sh {{ item.name }} | gzip > /var/dbase/reports/{{ item.name }}.csv.gz"
+    cron_file=bulk_dump_by_instrument_{{ item.name }}
+  with_items:
+  - { name: stars1, minute: 15 }
+  - { name: stars2, minute: 20 }
+

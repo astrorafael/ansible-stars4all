@@ -1,0 +1,5 @@
+---
+# handlers file for roles/nto.tessmon
+
+- name: reload monit
+  command: monit reload

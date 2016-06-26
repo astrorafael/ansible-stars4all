@@ -1,0 +1,13 @@
+---
+
+# ---------------------------
+# Role: nto.network_ddns_noip 
+# ----------------------------
+#'{{ ansible_default_ipv4.interface }}'
+network_ddns_noip:
+  eth0 :
+    ensure:   present
+    user  :   '{{ cred_ddns_noip_user   }}'
+    passwd:   '{{ cred_ddns_noip_passwd }}'
+    domain:   '{{ cred_ddns_noip_fqdn   }}'
+    interval: 20

@@ -1,0 +1,23 @@
+#!/bin/bash
+# {{ ansible_managed }}
+
+# Nagios return codes
+OK=0
+WARNING=1
+CRITICAL=2
+UNKNOWN=3
+
+[ -e /usr/bin/mosquitto_pub ] || exit ${UNKNOWN}
+
+output=$(/usr/bin/mosquitto_pub -h {{ item.host | mandatory }} -p {{ item.port | default(1883) }} -u {{ item.user | mandatory }} -P {{ item.passwd | mandatory }} -t STARS4ALL/monit -m PING)
+
+if [ $? -eq 0 ] 
+then
+	echo "OK: MQTT Broker is alive and kicking"
+	RETVAL=${OK}
+else
+	echo "CRITICAL: ${output}"
+	RETVAL=${CRITICAL}
+fi
+
+exit ${RETVAL}

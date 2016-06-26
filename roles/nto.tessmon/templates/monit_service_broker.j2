@@ -1,0 +1,7 @@
+# {{ ansible_managed }}
+
+check program check_broker_{{ item.name | mandatory }} with path "/usr/local/bin/check_broker_{{ item.name | mandatory }}"
+#    as uid "{{ item.uid | default('root') }}" and gid "{{ item.gid | default('root') }}"
+    with timeout {{ item.timeout | default(300) }} seconds
+    group brokers
+    if status != 0 for 1 cycles then alert

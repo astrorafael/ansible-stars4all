@@ -1,0 +1,62 @@
+---
+
+
+# ---------------
+# Role: nto.monit
+# ---------------
+
+
+# Monit Services
+monit_processes:
+- name: tessdb
+  limits: { }
+  groups: [ consumers ]
+
+
+monit_files:
+- name:     tess.db
+  path:     /var/dbase/tess.db
+  maxsize: "200 GB"
+  groups: [ consumers ]
+- name:     tessdb.log
+  path:     /var/log/tessdb.log
+  contents : 
+  - { regexp: "error"            , action: 'alert' }
+  - { regexp: "Stopping factory" , action: 'alert' }
+  groups: [ consumers ]
+
+
+monit_filesystems:
+- name:     rootfs
+  path:     /
+  maxsize: "90%"
+  groups: [ consumers ]
+- name:     dbasefs
+  path:     /var/dbase
+  maxsize: "90%"
+  groups: [ consumers ]
+
+
+monit_connectivity:
+- name:     '{{ cred_tessdb_broker }}'
+  ensure:   absent
+  address:  '{{ cred_tessdb_broker }}'
+  port:     '{{ cred_tessdb_port }}'
+  type:     tcp
+  groups: [ brokers ]
+
+
+monit_scripts:
+- name:     check_astrix_broker
+  ensure:   absent
+  path:     /usr/local/bin/check_astrix_broker
+  checks:
+    - { status: '*' }
+  groups: [ brokers ]
+- name:     check_ciclope_broker
+  ensure:   absent
+  path:     /usr/local/bin/check_ciclope_broker
+  checks:
+    - { status: '*' }
+  groups: [ brokers ]
+

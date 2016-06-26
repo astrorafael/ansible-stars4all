@@ -1,0 +1,140 @@
+---
+# tasks file for roles/nto.tessmon
+
+# --------------------------------
+# Configure MQTT Broker monitoring
+# --------------------------------
+
+- name: copy broker script checks for monit
+  template: >
+    dest=/usr/local/bin/check_broker_{{ item.name }}
+    src=check_broker.j2
+    owner=root
+    group=root
+    mode=0755
+  with_items: '{{ tessmon_broker_checks }}'
+  when: tessmon_monitor_broker | bool and item.ensure | default('present') == 'present'
+
+- name: delete broker script checks for monit
+  file: >
+    dest=/usr/local/bin/check_broker_{{ item.name }}
+    state=absent
+  with_items: '{{ tessmon_broker_checks }}'
+  when: tessmon_monitor_broker | bool and item.ensure | default('present') == 'absent'
+  
+
+- name: copy broker monit config files
+  template: >
+    dest=/etc/monit/conf.d/check_broker_{{ item.name }}
+    src=monit_service_broker.j2
+    owner=root
+    group=root
+    mode=0644
+  with_items: '{{ tessmon_broker_checks }}'
+  when: tessmon_monitor_broker | bool and item.ensure | default('present') == 'present'
+  notify: reload monit
+
+- name: delete broker monit config files
+  file: >
+    dest=/etc/monit/conf.d/check_broker_{{ item.name }}
+    state=absent
+  with_items: '{{ tessmon_broker_checks }}'
+  when: tessmon_monitor_broker | bool and item.ensure | default('present') == 'absent'
+  notify: reload monit
+  
+# ---------------------------------------------
+# Configure TESS instruments activity gathering
+# ---------------------------------------------
+
+- name: create /etc/tessmon directory
+  file: >
+    path=/etc/tessmon
+    state=directory
+    owner=root
+    group=root
+    mode=0755
+  when: tessmon_monitor_traffic
+
+- name: populate reference file
+  template: >
+    dest=/etc/tessmon/reference.js
+    src=reference.js.j2
+    owner=root
+    group=root
+    mode=0644
+  when: tessmon_monitor_traffic
+
+- name: delete reference file
+  file: >
+    dest=/etc/tessmon/reference.js
+    state=absent
+  when: not tessmon_monitor_traffic
+
+
+# ------------------------------------
+# Configure TESS instruments analyisis
+# ------------------------------------
+
+- name: copy /usr/local/bin/check_tessmon python script
+  copy: >
+    src=check_tessmon.py
+    dest=/usr/local/bin/check_tessmon
+    owner=root
+    group=root
+    mode=0755
+  when: tessmon_monitor_traffic
+
+- name: delete /usr/local/bin/check_tessmon python script
+  file: >
+    dest=/usr/local/bin/check_tessmon
+    state=absent
+  when: not tessmon_monitor_traffic
+  notify: reload monit
+
+- name: copy /etc/monit/conf.d/tessmon.log control file
+  template: >
+    src=monit_service_tessmon.log.j2
+    dest=/etc/monit/conf.d/tessmon.log
+    owner=root
+    group=root
+    mode=0644
+  when: tessmon_monitor_traffic
+  notify: reload monit
+
+- name: delete reference file
+  file: >
+    dest=/etc/monit/conf.d/tessmon.log
+    state=absent
+  when: not tessmon_monitor_traffic
+  notify: reload monit
+
+- name: copy tessmon logfile rotation policy script
+  template: >
+    src=logrotate_tessmon.j2
+    dest=/etc/logrotate.d/tessmon
+    owner=root
+    group=root
+    mode=0755
+  when: tessmon_monitor_traffic
+
+- name: delete tessmon logfile rotation policy script
+  file: >
+    dest=/etc/logrotate.d/tessmon
+    state=absent
+  when: not tessmon_monitor_traffic
+ 
+- name: copy /usr/local/bin/tessmon shell script
+  template: >
+    src=tessmon.sh.j2
+    dest=/usr/local/bin/tessmon.sh
+    owner=root
+    group=root
+    mode=0755
+  when: tessmon_monitor_traffic
+
+- name: delete /usr/local/bin/tessmon shell script
+  file: >
+    dest=/usr/local/bin/tessmon.sh
+    state=absent
+  when: not tessmon_monitor_traffic
+  notify: reload monit

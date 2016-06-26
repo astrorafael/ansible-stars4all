@@ -1,0 +1,55 @@
+---
+# tasks file for roles/nto.tessmon
+
+# ---------------------------------------------
+# Configure TESS instruments activity gathering
+# ---------------------------------------------
+
+# Creates a cron file under /etc/cron.d
+# - name: install TESS MQTT activity cron job
+#   cron: >
+#     name="TESS MQTT activity cron job" 
+#     minute=*/{{ tessmon_window }}
+#     hour=*
+#     user=root
+#     job="timeout {{ tessmon_timeout }} /usr/bin/mosquitto_sub -h {{ tessmon_broker }} -p {{ tessmon_port }} -u {{ tessmon_user }} -P {{ tessmon_passwd }} -t {{ tessmon_topic }} > /var/log/{{ tessmon_activity_file }}"
+#     cron_file=tess_activity
+#   when: tessmon_monitor_traffic
+
+# - name: delete TESS MQTT activity cron job
+#   cron: >
+#     name="TESS MQTT activity cron job" 
+#     cron_file=tess_activity
+#     minute=*/{{ tessmon_window }}
+#     hour=*
+#     user=root
+#     job="timeout {{ tessmon_timeout }} /usr/bin/mosquitto_sub -h {{ tessmon_broker }} -p {{ tessmon_port }} -u {{ tessmon_user }} -P {{ tessmon_passwd }} -t {{ tessmon_topic }} > /var/log/{{ tessmon_activity_file }}"
+#     cron_file=tess_activity
+#     state=absent
+#   when: not tessmon_monitor_traffic
+
+
+# ------------------------------------
+# Configure TESS instruments analyisis
+# ------------------------------------
+
+- name: install TESS monitor activity cron job
+  cron: >
+    name="TESS monitor cron job" 
+    minute=*/{{ tessmon_window }}
+    hour=*
+    user=root
+    job="/usr/local/bin/tessmon.sh"
+    cron_file=tessmon
+  when: tessmon_monitor_traffic
+
+- name: delete TESS monitor activity cron job
+  cron: >
+    name="TESS monitor cron job" 
+    minute=*/{{ tessmon_window }}
+    hour=*
+    user=root
+    job="/usr/local/bin/tessmon.sh"
+    cron_file=tessmon
+    state=absent
+  when: not tessmon_monitor_traffic

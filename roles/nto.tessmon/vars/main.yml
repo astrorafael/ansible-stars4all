@@ -1,0 +1,4 @@
+---
+# vars file for roles/nto.tessmon
+
+tessmon_timeout: '{{ (tessmon_window * 60 * tessmon_duty_cycle)/100 | int }}'

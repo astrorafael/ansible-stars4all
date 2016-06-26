@@ -1,0 +1,21 @@
+---
+
+# ---------------
+# Role: nto.monit
+# ---------------
+
+# Monit cycle period (in seconds)
+monit_period:  60
+
+#monit_listen_address: localhost
+
+# M/Monit endpoint
+monit_collect_user:    '{{ cred_mmonit_collect_user   }}'
+monit_collect_passwd:  '{{ cred_mmonit_collect_passwd }}' 
+#monit_collect_host:    '{{ cred_mmonit_host }}'
+monit_collect_port:    '{{ cred_mmonit_port }}'
+
+# Monit daemon HTTP interface access
+monit_user:   '{{ cred_monit_user   }}'
+monit_passwd: '{{ cred_monit_passwd }}'
+monit_port:   '{{ cred_monit_port }}'

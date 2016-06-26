@@ -1,0 +1,8 @@
+# {{ ansible_managed }}
+/var/log/{{ tessmon_logfile }} {
+	daily
+	rotate 5
+	missingok
+	notifempty
+	copytruncate
+}

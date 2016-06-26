@@ -1,0 +1,7 @@
+group_vars/all/1credentials.yml
+group_vars/consumers/locations.yml
+inventory/hosts
+sftp-config.json
+*.retry
+*~
+my*

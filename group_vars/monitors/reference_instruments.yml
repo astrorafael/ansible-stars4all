@@ -1,0 +1,10 @@
+---
+
+# -----------------
+# Role: nto.tessmon 
+# -----------------
+
+tessmon_reference_instruments:
+  - stars1
+  - stars2
+  - stars3

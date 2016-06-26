@@ -1,0 +1,6 @@
+---
+# tasks file for roles/nto.tessmon
+
+- name: install mosquitto clients
+  apt: name=mosquitto-clients state=latest
+ 

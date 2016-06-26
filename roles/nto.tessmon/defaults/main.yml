@@ -1,0 +1,38 @@
+---
+# defaults file for roles/nto.tessmon
+
+tessmon_monitor_broker: no 
+
+tessmon_broker_checks: []
+
+# --------------------------
+# Traffic gathering section
+# --------------------------
+
+tessmon_monitor_traffic: no 
+
+# Time window to analyze (in minutes)
+tessmon_window: 10
+
+# Tessmon duty cylce inside time window
+tessmon_duty_cycle: 80
+
+tessmon_broker: foo.bar
+tessmon_port: 1883
+tessmon_user: foo
+tessmon_passwd: bar
+tessmon_topic: STARS4ALL/+/reading
+# File name (under /var/log)
+tessmon_activity_file: tess_activity.log
+
+# ------------------------
+# Traffic analysis section
+# ------------------------
+
+# logfile (under /var/log)
+tessmon_logfile: tessmon.log
+# Reference file (under /etc/tessmon)
+tessmon_reference_file: reference.js
+tessmon_reference_instruments: []
+
+

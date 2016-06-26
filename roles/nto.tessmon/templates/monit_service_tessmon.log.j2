@@ -1,0 +1,6 @@
+# {{ ansible_managed }}
+
+check file {{ tessmon_logfile }} with path /var/log/{{ tessmon_logfile }}
+   group producers
+   if match "WARNING:"  for 1 cycles then alert
+   if match "CRITICAL:" for 1 cycles then alert
