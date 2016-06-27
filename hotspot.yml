@@ -29,3 +29,6 @@
     network_interfaces_delayed_restart: no
     tags: [ network ]
 
+  - role: nto.ntp
+    tags: [ ntp ]
+
