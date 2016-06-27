@@ -10,16 +10,6 @@
   - name: update apt cache once a day
     apt: update_cache=yes cache_valid_time=86400
 
-  - name: allow packed forwarding inmediately
-    command: echo 1 > /proc/sys/net/ipv4/ip_forward
-
-  - name: allow packed forwarding after reboot
-    lineinfile: >
-      dest=/etc/sysctl.conf
-      regexp="^#(net.ipv4.ip_forward=1)"
-      line="\1"
-      state=present
-      backrefs=yes
 
   - name: configure iptables for routing packets
     shell: >
@@ -35,6 +25,7 @@
   roles:
   
   - role: nto.network
+    network_allow_forwarding: yes
     tags: [ network ]
 
   
