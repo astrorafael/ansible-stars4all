@@ -26,21 +26,6 @@
   
   - role: nto.network
     network_allow_forwarding: yes
+    network_interfaces_delayed_restart: no
     tags: [ network ]
 
-  
-
-# pi@raspberrypi:~ $ sudo iptables -t nat -S
-# -P PREROUTING ACCEPT
-# -P INPUT ACCEPT
-# -P OUTPUT ACCEPT
-# -P POSTROUTING ACCEPT
-# pi@raspberrypi:~ $ sudo iptables -S
-# -P INPUT ACCEPT
-# -P FORWARD ACCEPT
-# -P OUTPUT ACCEPT
-
-
-
-# In /etc/network/interfaces añadir
-#up iptables-restore < /etc/iptables.ipv4.nat
