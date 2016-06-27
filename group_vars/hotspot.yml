@@ -24,4 +24,4 @@ network_wifi_interfaces:
       gw:   '192.168.42.1'
 
 network_scripts:
-  - "up iptables-restore < /etc/iptables.ipv4.nat"
+  - /sbin/iptables-restore < /etc/iptables.ipv4.nat
