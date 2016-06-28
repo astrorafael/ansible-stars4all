@@ -32,7 +32,7 @@ network_scripts:
 
 ntp_default_options:
 - -g
-- I eth0
+- -I eth0
 
 ntp_timezone: Etc/UTC
 

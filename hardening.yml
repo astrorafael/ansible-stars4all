@@ -1,0 +1,51 @@
+---
+
+# This Playbook prepares a brand new Raspberry Pi for its new purpose
+# 1) Changes the hostname
+# 2) Add a new user deleting the pi user or else keep the 'pi' user
+# 3) Disables the 'pi' password
+# 4) Install SSH keys for the new user or the pi user
+# Assumes the official Raspbian distribution
+
+
+- hosts: hardening
+  become: yes
+
+  vars_prompt:
+
+    - name: hardening_hostname
+      prompt:  "1. Enter new hostname (short name, not FQDN)"
+      default: raspberrypi
+    - name: hardening_user
+      prompt:  "2. Enter new UNIX username"
+      default: pi
+    - name: hardening_user_keyfile
+      prompt:  "3. Enter SSH public key file path for user"
+      default: "files/keys/nto_rsa.pub" 
+    - name: hardening_mgmt_keyfile
+      prompt:  "4. Enter SSH public key file path for Ansible management"
+      default: "files/keys/nto_rsa.pub" 
+    - name: hardening_ssh_port
+      prompt:  "5. Enter SSH Port"
+      default: 22
+
+  pre_tasks:
+
+  - debug: msg="applying new {{ item.name }} => {{ item.value }}" 
+    with_items:
+    - { name: hostname,      value: '{{ hardening_hostname     }}' }
+    - { name: username,      value: '{{ hardening_user         }}' }
+    - { name: user key file, value: '{{ hardening_user_keyfile }}' }
+    - { name: mgmt key file, value: '{{ hardening_mgmt_keyfile }}' }
+    - { name: ssh port,      value: '{{ hardening_ssh_port     }}' }
+
+  roles:
+  - pi.initial
+  - pi.hardening
+  
+  post_tasks:
+
+  - name: reboot the Raspberry Pi
+    command: /sbin/reboot
+    when: reboot_raspberry_pi is defined and reboot_raspberry_pi | bool
+
