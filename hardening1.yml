@@ -3,8 +3,7 @@
 # This Playbook prepares a brand new Raspberry Pi for its new purpose
 # 1) Changes the hostname
 # 2) Add a new user deleting the pi user or else keep the 'pi' user
-# 3) Disables the 'pi' password
-# 4) Install SSH keys for the new user or the pi user
+# 3) Install SSH keys for the new user or the pi user
 # ----------------------------------------------
 # This is the first part of a two-stage process 
 # that has several reboots in between
