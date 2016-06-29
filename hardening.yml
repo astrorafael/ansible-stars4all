@@ -6,6 +6,9 @@
 # 3) Disables the 'pi' password
 # 4) Install SSH keys for the new user or the pi user
 # Assumes the official Raspbian distribution
+# Execute like:
+#   ./hardening.sh
+#   ./hardening -t stage2
 
 
 - hosts: hardening

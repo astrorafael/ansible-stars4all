@@ -17,7 +17,7 @@ network_wifi_interfaces:
     bootproto: static
     address:   192.168.42.1/24
     ssid:      PI4STARS
-    password:  20colibri15
+    password:  '{{ cred_pi4stars_wifi }}'
     dhcpd:
       from: '192.168.42.10'
       to:   '192.168.42.50'
@@ -35,4 +35,3 @@ ntp_default_options:
 - -I eth0
 
 ntp_timezone: Etc/UTC
-
