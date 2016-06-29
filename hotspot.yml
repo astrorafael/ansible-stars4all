@@ -1,15 +1,9 @@
 ---
 # This Playbook prepares a brand new Raspberry Pi 
-# for an All-In-One-Wonder router, Webcam, & eather website
 - hosts: hotspot
   become: yes
 
   pre_tasks:
-
-  # Only run "update_cache=yes" once a day
-  - name: update apt cache once a day
-    apt: update_cache=yes cache_valid_time=86400
-
 
   - name: configure iptables for routing packets
     shell: >
@@ -29,6 +23,8 @@
     network_interfaces_delayed_restart: no
     tags: [ network ]
 
+  # Avoid using wlan0 fro time requests
   - role: nto.ntp
+    ntp_default_options: [ '-g', '-I eth0' ]
     tags: [ ntp ]
 

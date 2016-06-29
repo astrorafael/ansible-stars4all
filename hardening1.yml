@@ -5,13 +5,12 @@
 # 2) Add a new user deleting the pi user or else keep the 'pi' user
 # 3) Disables the 'pi' password
 # 4) Install SSH keys for the new user or the pi user
-# Assumes the official Raspbian distribution
-# Execute like:
-#   ./hardening.sh
-#   ./hardening -t stage2
+# ----------------------------------------------
+# This is the first part of a two-stage process 
+# that has several reboots in between
+# ----------------------------------------------
 
-
-- hosts: hardening
+- hosts: hardening1
   become: yes
 
   vars_prompt:
