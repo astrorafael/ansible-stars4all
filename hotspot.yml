@@ -17,7 +17,9 @@
       creates: /etc/iptables.ipv4.nat
 
   roles:
-  
+
+  - role: pi.facts
+ 
   - role: nto.network
     network_allow_forwarding: yes
     network_interfaces_delayed_restart: no

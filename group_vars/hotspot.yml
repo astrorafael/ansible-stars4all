@@ -14,6 +14,7 @@ network_ether_interfaces:
 
 network_wifi_interfaces:
   wlan0:
+    auto:      no
     bootproto: static
     address:   192.168.42.1/24
     ssid:      PI4STARS
