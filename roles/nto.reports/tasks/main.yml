@@ -55,4 +55,5 @@
   - { name: stars4, hour: 13, minute: 22 }
   - { name: stars5, hour: 13, minute: 24 }
   - { name: STARS7, hour: 13, minute: 26 }
+  - { name: stars8, hour: 13, minute: 28 }
 
