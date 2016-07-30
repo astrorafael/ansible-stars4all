@@ -1,9 +1,15 @@
 ---
 # Assign locations to TESS instruments
 tessdb_tess_locations:
-- name : "coslada" 
+- name : pruebas 
   site : "Laboratorio de Cristobal"
-- name : "coslada2" 
-  site : "Laboratorio de Cristobal" 
- 
+- name : stars1 
+  site : "Laboratorio de Cristobal"
+- name : stars4
+  site : "Villaverde del Ducado" 
+- name : stars5 
+  site : "Villaverde del Ducado" 
+- name : STARS7
+  site : Pamplona
+
  
