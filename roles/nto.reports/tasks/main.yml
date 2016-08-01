@@ -25,7 +25,7 @@
   cron: >
     name="TESS sunrise/sunset times" 
     minute=0
-    hour=13
+    hour=9
     user="root" 
     job="/usr/local/bin/tess_sunrise_sunset.sh"
     cron_file=tess_sunrise_sunset
@@ -35,7 +35,7 @@
   cron: >
     name="Daily readings summary" 
     minute=5
-    hour=13
+    hour=9
     user="root" 
     job="/usr/local/bin/tess_readings_daily_summary.sh  > /var/dbase/reports/tess_readings_daily_summary.txt"
     cron_file=tess_daily_readings_summary
@@ -50,10 +50,10 @@
     job="/usr/local/bin/tess_bulk_dump_by_instrument.sh {{ item.name }} | gzip > /var/dbase/reports/{{ item.name }}.csv.gz"
     cron_file=bulk_dump_by_instrument_{{ item.name }}
   with_items:
-  - { name: stars1, hour: 13, minute: 15 }
-  - { name: stars2, hour: 13, minute: 20 }
-  - { name: stars4, hour: 13, minute: 22 }
-  - { name: stars5, hour: 13, minute: 24 }
-  - { name: STARS7, hour: 13, minute: 26 }
-  - { name: stars8, hour: 13, minute: 28 }
+  - { name: stars1, hour: 9, minute: 15 }
+  - { name: stars2, hour: 9, minute: 20 }
+  - { name: stars4, hour: 9, minute: 22 }
+  - { name: stars5, hour: 9, minute: 24 }
+  - { name: stars7, hour: 9, minute: 26 }
+  - { name: stars8, hour: 9, minute: 28 }
 

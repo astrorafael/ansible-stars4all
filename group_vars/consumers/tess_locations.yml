@@ -9,7 +9,7 @@ tessdb_tess_locations:
   site : "Villaverde del Ducado" 
 - name : stars5 
   site : "Facultad de Fisicas, UCM" 
-- name : STARS7
+- name : stars7
   site : Pamplona
 
  
