@@ -11,5 +11,10 @@ tessdb_tess_locations:
   site : "Facultad de Fisicas, UCM" 
 - name : stars7
   site : Pamplona
-
+- name : stars8
+  site : "Observatorio Guirguillano"
+#- name : stars11
+#  site : "Observatorio El Torcal"
+#- name : stars12
+#  site : "El Pinillo"
  
