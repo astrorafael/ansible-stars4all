@@ -9,12 +9,18 @@ tessdb_tess_locations:
   site : "Villaverde del Ducado" 
 - name : stars5 
   site : "Facultad de Fisicas, UCM" 
+#- name : stars6 
+#  site : "Observatorio del Teide" 
 - name : stars7
   site : Pamplona
 - name : stars8
   site : "Observatorio Guirguillano"
-#- name : stars11
-#  site : "Observatorio El Torcal"
-#- name : stars12
-#  site : "El Pinillo"
+- name : stars9
+  site : "Observatorio de Manuel Barco"
+- name : stars10
+  site : "Observatorio de Jesus R. Sanchez"
+- name : stars11
+  site : "Observatorio El Torcal"
+- name : stars12
+  site : "El Pinillo"
  
