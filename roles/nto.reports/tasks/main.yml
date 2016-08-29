@@ -54,6 +54,11 @@
   - { name: stars2, hour: 9, minute: 20 }
   - { name: stars4, hour: 9, minute: 22 }
   - { name: stars5, hour: 9, minute: 24 }
-  - { name: stars7, hour: 9, minute: 26 }
-  - { name: stars8, hour: 9, minute: 28 }
+  - { name: stars6, hour: 9, minute: 26 }
+  - { name: stars7, hour: 9, minute: 28 }
+  - { name: stars8, hour: 9, minute: 30 }
+  - { name: stars9, hour: 9, minute: 32 }
+  - { name: stars10, hour: 9, minute: 34 }
+  - { name: stars11, hour: 9, minute: 36 }
+  - { name: stars12, hour: 9, minute: 38 }
 

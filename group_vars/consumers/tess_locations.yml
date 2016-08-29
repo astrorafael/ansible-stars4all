@@ -9,8 +9,8 @@ tessdb_tess_locations:
   site : "Villaverde del Ducado" 
 - name : stars5 
   site : "Facultad de Fisicas, UCM" 
-#- name : stars6 
-#  site : "Observatorio del Teide" 
+- name : stars6 
+  site : "Hestheimar, Guesthouse and horse farm" 
 - name : stars7
   site : Pamplona
 - name : stars8
