@@ -23,4 +23,6 @@ tessdb_tess_locations:
   site : "Observatorio El Torcal"
 - name : stars12
   site : "El Pinillo"
+- name : stars3 
+  site : "Facultad de Fisicas, UCM" 
  
