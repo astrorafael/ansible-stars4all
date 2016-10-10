@@ -61,5 +61,7 @@
   - { name: stars10, hour: 9, minute: 34 }
   - { name: stars11, hour: 9, minute: 36 }
   - { name: stars12, hour: 9, minute: 38 }
-  - { name: stars3, hour: 9,  minute: 40 }
+  - { name: stars3,  hour: 9, minute: 40 }
+  - { name: stars16, hour: 9, minute: 42 }
+  - { name: stars17, hour: 9, minute: 44 }
 

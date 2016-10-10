@@ -25,4 +25,7 @@ tessdb_tess_locations:
   site : "El Pinillo"
 - name : stars3 
   site : "Facultad de Fisicas, UCM" 
- 
+- name : stars16 
+  site : "Facultad de Fisicas, UCM" 
+- name : stars17 
+  site : "Facultad de Fisicas, UCM" 
