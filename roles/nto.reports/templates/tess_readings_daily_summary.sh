@@ -12,5 +12,5 @@ FROM tess_readings_t AS r
 JOIN tess_t AS i USING (tess_id)
 JOIN date_t AS d USING (date_id)
 GROUP BY r.date_id, r.tess_id
-ORDER BY d.sql_date DESC;
+ORDER BY d.sql_date DESC, CAST(substr(i.name, 6) as decimal) ASC;
 EOF
