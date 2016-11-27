@@ -2,7 +2,7 @@
 # {{ ansible_managed }}
 
 instrument_name=$1
-
+service tessdb pause ; sleep 1
 sqlite3 -csv -header /var/dbase/tess.db <<EOF
 .separator ;
 SELECT (d.julian_day + t.day_fraction) AS julian_day, (d.sql_date || 'T' || t.time || 'Z') AS timestamp, r.sequence_number, l.site, i.name, r.frequency, r.magnitude, i.zero_point, r.sky_temperature, r.ambient_temperature
@@ -14,3 +14,4 @@ JOIN time_t          AS t USING (time_id)
 WHERE i.name = "${instrument_name}"
 ORDER BY r.date_id ASC, r.time_id ASC;
 EOF
+service tessdb resume

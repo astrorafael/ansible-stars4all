@@ -36,25 +36,25 @@
 - name: install daily readings summary
   cron: >
     name="Daily readings summary" 
-    minute=5
+    minute=10
     hour=9
     user="root" 
     job="/usr/local/bin/tess_readings_daily_summary.sh  > /var/dbase/reports/tess_readings_daily_summary.txt"
     cron_file=tess_daily_readings_summary
 
+# Creates a cron file under /etc/cron.d
 - name: install instrument cron jobs
   cron: >
     name="cron job for {{ item.name }}" 
-    minute=9
-    hour=10
+    minute={{ item.minute }}
+    hour={{ item.hour }}
     user="root" 
     job="/usr/local/bin/{{ item.name }}.sh > /var/dbase/reports/{{ item.name }}.csv"
     cron_file={{ item.name }}
   with_items:
-  - { name: tess_catalog   }
-  - { name: tess_changelog }
+  - { name: tess_catalog,   hour: 9, minute: 12 }
+  - { name: tess_changelog, hour: 9, minute: 12 }
   
-
 # Creates a cron file under /etc/cron.d
 - name: install bulk dump cron jobs
   cron: >

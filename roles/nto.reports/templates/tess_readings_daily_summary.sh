@@ -4,6 +4,7 @@
 # Por si acaso ...
 TODAY=$(date +%Y%m%d)
 
+service tessdb pause ; sleep 1
 sqlite3 /var/dbase/tess.db <<EOF
 .mode column
 .headers on
@@ -14,3 +15,4 @@ JOIN date_t AS d USING (date_id)
 GROUP BY r.date_id, r.tess_id
 ORDER BY d.sql_date DESC, CAST(substr(i.name, 6) as decimal) ASC;
 EOF
+service tessdb resume
