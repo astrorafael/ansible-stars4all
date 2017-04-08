@@ -1,0 +1,42 @@
+---
+
+   
+- hosts: localhost
+  become: yes
+  vars:
+
+    my_influxdb_databases:
+      - name: foodb
+        state: present
+        retention_policies:
+        - { name: one_day,  duration: INF, shard_duration: 7d, replication: 1, default: yes }
+        - { name: two_days, duration: 4d,  shard_duration: 2h, replication: 1 }
+        - { name: autogen, state: absent }
+      - name: bardb
+        state: present
+        retention_policies:
+        - { name: one_day,  duration: INF, shard_duration: 1000w, replication: 1 }
+        - { name: two_days, duration: 7d,  shard_duration: 7h, replication: 1, default: yes }
+        - { name: autogen, state: absent }
+
+    my_influxdb_users: 
+      - name: foo
+        password: 1foo 
+        state: present
+        privileges:
+          - { database: foodb, permissions: none }
+          - { database: bardb, permissions: read } 
+      - name: bar
+        password: 1bar
+        state: present
+        privileges:
+          - { database: foodb, permissions: write }
+          - { database: bardb, permissions: all   } 
+  
+  roles: 
+
+  - role: nto.influxdb
+    influxdb_databases: '{{ my_influxdb_databases }}'
+    influxdb_users:     '{{ my_influxdb_users }}'
+    tags: [influxdb]
+
