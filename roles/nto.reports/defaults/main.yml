@@ -1,2 +1,4 @@
 ---
 # defaults file for roles/nto.reports
+
+reports_list: []
