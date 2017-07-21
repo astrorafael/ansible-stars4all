@@ -33,4 +33,5 @@ reports_list:
   - { name: stars63, hour: 10, minute: 06 }
   - { name: stars69, hour: 10, minute: 08 }
   - { name: stars70, hour: 10, minute: 10 }
-  - { name: stars91, hour: 10, minute: 12 }
+  - { name: stars81, hour: 10, minute: 12 }
+  - { name: stars91, hour: 10, minute: 14 }
