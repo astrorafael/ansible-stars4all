@@ -18,7 +18,7 @@
     mode=0755
   with_items:
   - tess_readings_daily_summary.sh
-  - tess_bulk_dump_by_instrument.sh
+  - tess_bulk_dump.sh
   - tess_sunrise_sunset.sh
   - tess_catalog.sh
   - tess_changelog.sh
@@ -42,8 +42,7 @@
     job="/usr/local/bin/tess_readings_daily_summary.sh  > /var/dbase/reports/tess_readings_daily_summary.txt"
     cron_file=tess_daily_readings_summary
 
-# Creates a cron file under /etc/cron.d
-- name: install instrument cron jobs
+- name: install generic cron jobs
   cron: >
     name="cron job for {{ item.name }}" 
     minute={{ item.minute }}
@@ -54,16 +53,27 @@
   with_items:
   - { name: tess_catalog,   hour: 9, minute: 12 }
   - { name: tess_changelog, hour: 9, minute: 12 }
-  
-# Creates a cron file under /etc/cron.d
-- name: install bulk dump cron jobs
+
+
+# install new stuff
+
+- name: install instruments file for reports
+  copy: >
+    dest=/var/dbase/tess_instruments_file.txt
+    src=tess_instruments_file.txt
+    owner=root
+    group=root
+    mode=0644
+  tags: [reports_per_tess]
+
+
+- name: install per instrument bulk dump cron job
   cron: >
-    name="bulk dump cron job for {{ item.name }}" 
-    minute={{ item.minute }} 
-    hour={{ item.hour }}
+    name="TESS instruments CSV bulk dump cron job" 
+    minute=30
+    hour=9
     user="root" 
-    job="/usr/local/bin/tess_bulk_dump_by_instrument.sh {{ item.name }} | gzip > /var/dbase/reports/{{ item.name }}.csv.gz"
-    cron_file=bulk_dump_by_instrument_{{ item.name }}
-  with_items: '{{ reports_list }}'
+    job="/usr/local/bin/tess_bulk_dump.sh /var/dbase/tess_instruments_file.txt"
+    cron_file=tess_bulk_dump_by_instrument_file
   tags: [reports_per_tess]
 
