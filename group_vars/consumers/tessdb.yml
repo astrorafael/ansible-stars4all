@@ -12,7 +12,7 @@ tessdb_config:
   log:    {}
   dbase:  {}
   mqtt: 
-    tess_blacklist: ['pruebas']
+    tess_blacklist: ['pruebas', 'pruebas2','pruebas88']
     broker:        'tcp:{{ cred_tessdb_broker }}:{{ cred_tessdb_port }}'
     username:      '{{ cred_tessdb_username }}'
     password:      '{{ cred_tessdb_password }}'
