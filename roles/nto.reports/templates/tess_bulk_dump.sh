@@ -32,7 +32,7 @@ service tessdb pause ; sleep 2
 # Loops over the instruments file and dumping data
 for instrument in $( cat $instruments_file ); do
 	echo "Generating compresed CSV for TESS $instrument"
-	bulk_dump_by_instrument() ${instrument} | gzip > /var/dbase/reports/${instrument}.csv.gz
+	bulk_dump_by_instrument ${instrument} | gzip > /var/dbase/reports/${instrument}.csv.gz
 done
 
 # Resume background database I/O
