@@ -18,7 +18,7 @@
     mode=0755
   with_items:
   - tess_readings_daily_summary.sh
-  - tess_bulk_dump.sh
+  - tess_instruments_file.sh
   - tess_sunrise_sunset.sh
   - tess_catalog.sh
   - tess_changelog.sh
@@ -57,15 +57,15 @@
 
 # install new stuff
 
-- name: install instruments file for reports
-  copy: >
-    dest=/var/dbase/tess_instruments_file.txt
-    src=tess_instruments_file.txt
-    owner=root
-    group=root
-    mode=0644
+- name: install instruments file generator cron job
+  cron: >
+    name="TESS instruments file generator cron job" 
+    minute=25
+    hour=9
+    user="root" 
+    job="/usr/local/bin/tess_instruments.sh"
+    cron_file=tess_generate_instruments_file
   tags: [reports_per_tess]
-
 
 - name: install per instrument bulk dump cron job
   cron: >
