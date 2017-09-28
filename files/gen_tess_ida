@@ -1,0 +1,123 @@
+#!/usr/bin/env python
+
+# Generate tess_ida invocation for past observations
+
+
+# ----------------------------------------------------------------------
+# Copyright (c) 2017 Rafael Gonzalez.
+#
+# See the LICENSE file for details
+# ----------------------------------------------------------------------
+
+#--------------------
+# System wide imports
+# -------------------
+from __future__ import generators    # needs to be at the top of your module
+
+import os
+import os.path
+import sys
+import argparse
+import sqlite3
+import datetime
+import time
+
+#--------------
+# other imports
+# -------------
+
+
+# ----------------
+# Module constants
+# ----------------
+
+DEFAULT_DBASE = "/var/dbase/tess.db"
+
+DEFAULT_MONTH = datetime.datetime.utcnow().strftime("%Y-%m")
+
+TSTAMP_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
+
+ONE_MONTH = datetime.timedelta(days=30)
+
+# -----------------------
+# Module global functions
+# -----------------------
+
+def createParser():
+    # create the top-level parser
+    parser = argparse.ArgumentParser(prog=sys.argv[0])
+    parser.add_argument('-d', '--dbase', default=DEFAULT_DBASE, help='SQLite database full file path')
+    return parser
+
+# ------------------
+# DATABASE FUNCTIONS
+# ------------------
+
+def open_database(dbase_path):
+    if not os.path.exists(dbase_path):
+       raise IOError("No SQLite3 Database file found at {0}. Exiting ...".format(dbase_path))
+    return sqlite3.connect(dbase_path)
+
+
+
+def get_timespan(connection, options):
+    cursor = connection.cursor()
+    cursor.execute(
+            '''
+            SELECT i.name, MIN(d.sql_date || 'T' || t.time || 'Z') AS earliest, 
+                           MAX(d.sql_date || 'T' || t.time || 'Z') AS latest
+            FROM tess_readings_t AS r
+            JOIN tess_t          AS i USING (tess_id)
+            JOIN location_t      AS l USING (location_id)
+            JOIN date_t          AS d USING (date_id)
+            JOIN time_t          AS t USING (time_id)
+            GROUP BY i.name;
+            ''')
+    # Solo para instrumentos TESS monocanal
+    return cursor.fetchall()
+    
+
+# -------------------
+# AUXILIARY FUNCTIONS
+# -------------------
+
+def print_invocations(name, earliest, latest):
+    now =  datetime.datetime.utcnow()
+    dt_earliest = datetime.datetime.strptime(earliest, TSTAMP_FORMAT)
+    dt_latest   = datetime.datetime.strptime(latest, TSTAMP_FORMAT)
+    dt = dt_earliest
+    print("# -- %s" % name)
+    while dt < dt_latest:
+        if (dt.month == now.month) and (dt.year == now.year):
+            print('echo "sudo tess_ida %s --latest-month"' % (name,))
+            print("sudo tess_ida %s --latest-month" % (name,))
+        else:
+            print('echo "sudo tess_ida %s --from-month %s-%s"' % (name, dt.year, dt.month))
+            print("sudo tess_ida %s --from-month %s-%s" % (name, dt.year, dt.month))
+        dt = dt + ONE_MONTH
+
+# -------------
+# MAIN FUNCTION
+# -------------
+
+def main():
+    '''
+    Utility entry point
+    '''
+    try:
+        options = createParser().parse_args(sys.argv[1:])
+        connection = open_database(options.dbase)
+        results = get_timespan(connection, options)
+        print('#!/bin/bash')
+        print('echo "sudo service tessdb pause"')
+        print("sudo service tessdb pause")
+        for result in results:
+            print_invocations(result[0], result[1], result[2])
+        print('echo "sudo service tessdb resume"')
+        print("sudo service tessdb resume")
+    except KeyboardInterrupt:
+        print('Interrupted by user ^C')
+    #except Exception as e:
+        print("Error => {0}".format(e))
+
+main()

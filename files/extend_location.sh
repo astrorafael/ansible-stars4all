@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This scrits adds two new columns 'contact_name' and 'timezone'
+# This script adds two new columns 'contact_name' and 'timezone'
 # to the location_te table
 
 service tessdb pause ; sleep 2
