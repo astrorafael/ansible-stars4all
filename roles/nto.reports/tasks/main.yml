@@ -9,7 +9,7 @@
     group=root
     mode=0755
 
-- name: copy SQL files
+- name: copy additional SQL report files
   template: >
     dest=/usr/local/bin/{{ item }}
     src={{ item }}
@@ -17,30 +17,8 @@
     group=root
     mode=0755
   with_items:
-  - tess_readings_daily_summary.sh
-  - tess_instruments_file.sh
-  - tess_sunrise_sunset.sh
   - tess_catalog.sh
   - tess_changelog.sh
-
-- name: install sunrise/sunset historic
-  cron: >
-    name="TESS sunrise/sunset times" 
-    minute=0
-    hour=9
-    user="root" 
-    job="/usr/local/bin/tess_sunrise_sunset.sh"
-    cron_file=tess_sunrise_sunset
-
-
-- name: install daily readings summary
-  cron: >
-    name="Daily readings summary" 
-    minute=10
-    hour=9
-    user="root" 
-    job="/usr/local/bin/tess_readings_daily_summary.sh  > /var/dbase/reports/tess_readings_daily_summary.txt"
-    cron_file=tess_daily_readings_summary
 
 - name: install generic cron jobs
   cron: >
@@ -48,32 +26,14 @@
     minute={{ item.minute }}
     hour={{ item.hour }}
     user="root" 
-    job="/usr/local/bin/{{ item.name }}.sh > /var/dbase/reports/{{ item.name }}.csv"
+    job="/usr/local/bin/{{ item.name }}.sh"
     cron_file={{ item.name }}
   with_items:
-  - { name: tess_catalog,   hour: 9, minute: 12 }
-  - { name: tess_changelog, hour: 9, minute: 12 }
-
-
-# install new stuff
-
-- name: install instruments file generator cron job
-  cron: >
-    name="TESS instruments file generator cron job" 
-    minute=25
-    hour=9
-    user="root" 
-    job="/usr/local/bin/tess_instruments.sh"
-    cron_file=tess_generate_instruments_file
-  tags: [reports_per_tess]
-
-- name: install per instrument bulk dump cron job
-  cron: >
-    name="TESS instruments CSV bulk dump cron job" 
-    minute=30
-    hour=9
-    user="root" 
-    job="/usr/local/bin/tess_bulk_dump.sh /var/dbase/tess_instruments_file.txt"
-    cron_file=tess_bulk_dump_by_instrument_file
-  tags: [reports_per_tess]
-
+  - { name: tess_sunrise_sunset,    hour: 9, minute:  0 }
+  - { name: tess_daily_summary,     hour: 9, minute: 10 }
+  - { name: tess_catalog,           hour: 9, minute: 12 }
+  - { name: tess_changelog,         hour: 9, minute: 12 }
+  - { name: tess_instruments_file,  hour: 9, minute: 25 }
+  - { name: tess_bulk_dump,         hour: 9, minute: 30 }
+  - { name: tess_ida_bulk_dump,     hour: 9, minute: 45 }
+ 
