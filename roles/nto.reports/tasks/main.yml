@@ -30,10 +30,9 @@
     cron_file={{ item.name }}
   with_items:
   - { name: tess_sunrise_sunset,    hour: 9, minute:  0 }
+  - { name: tess_catalog,           hour: 9, minute:  5 }
+  - { name: tess_changelog,         hour: 9, minute:  7 }
   - { name: tess_daily_summary,     hour: 9, minute: 10 }
-  - { name: tess_catalog,           hour: 9, minute: 12 }
-  - { name: tess_changelog,         hour: 9, minute: 12 }
-  - { name: tess_instruments_file,  hour: 9, minute: 25 }
   - { name: tess_bulk_dump,         hour: 9, minute: 30 }
   - { name: tess_ida_bulk_dump,     hour: 9, minute: 45 }
  
