@@ -29,8 +29,15 @@ if  [[ ! -d $out_dir  ]]; then
 fi
 
 
-/usr/sbin/service tessdb pause
-sleep 1
+# Stops background database I/O when using the operational database
+if  [[ $dbase = $DEFAULT_DATABASE ]]; then
+        echo "Pausing tessdb service."
+    	/usr/sbin/service tessdb pause 
+		sleep 2
+else
+	echo "Using backup database, no need to pause tessdb service."
+fi
+
 
 sqlite3 -csv -header ${dbase} <<EOF > ${out_dir}/${name}.csv"
 .separator ;
