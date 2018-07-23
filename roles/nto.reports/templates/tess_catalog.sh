@@ -1,12 +1,33 @@
 #!/bin/bash
 # {{ ansible_managed }}
 
-# Arguments from the command line & default values
-dbase="${1:-/var/dbase/tess.db}"
-out_dir="${2:-/var/dbase/reports}"
+DEFAULT_DATABASE="/var/dbase/tess.db"
+DEFAULT_REPORTS_DIR="/var/dbase/reports"
 
+# Arguments from the command line & default values
+
+# Either the default or the rotated tess.db-* database
+dbase="${1:-$DEFAULT_DATABASE}"
+# wildcard expansion ...
+dbase="$(ls -1 $dbase)"
+
+out_dir="${2:-$DEFAULT_REPORTS_DIR}"
 # get the name from the script name without extensions
 name=$(basename ${0%.sh})
+
+
+if  [[ ! -f $dbase || ! -r $dbase ]]; then
+        echo "Database file $dbase does not exists or is not readable."
+        echo "Exiting"
+        exit 1
+fi
+
+if  [[ ! -d $out_dir  ]]; then
+        echo "Output directory $out_dir does not exists."
+        echo "Exiting"
+        exit 1
+fi
+
 
 /usr/sbin/service tessdb pause
 sleep 1
@@ -19,4 +40,11 @@ WHERE v.valid_state = "Current"
 ORDER BY CAST(substr(v.name, 6) as decimal) ASC;
 EOF
 
-/usr/sbin/service tessdb resume
+
+# Resume background database I/O
+if  [[ $dbase = $DEFAULT_DATABASE ]]; then
+        echo "Resuming tessdb service."
+    	/usr/sbin/service tessdb resume 
+else
+	echo "Using backup database, no need to resume tessdb service."
+fi
