@@ -33,6 +33,6 @@
   - { name: tess_catalog,        hour: 9,  minute:  5, dbase: /var/dbase/tess.db }
   - { name: tess_changelog,      hour: 9,  minute:  7, dbase: /var/dbase/tess.db }
   - { name: tess_daily_summary,  hour: 9,  minute: 10, dbase: /var/dbase/tess.db }
-  - { name: tess_bulk_dump,      hour: 9,  minute: 30, dbase: /var/dbase/tess.db }
+  - { name: tess_bulk_dump,      hour: 13, minute: 15, dbase: /var/dbase/tess.db-\* }
   - { name: tess_ida_bulk_dump,  hour: 12, minute: 45, dbase: /var/dbase/tess.db-\* }
  
