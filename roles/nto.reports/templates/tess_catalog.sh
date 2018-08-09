@@ -39,7 +39,7 @@ else
 fi
 
 
-sqlite3 -csv -header ${dbase} <<EOF > ${out_dir}/${name}.csv"
+sqlite3 -csv -header ${dbase} <<EOF > ${out_dir}/${name}.csv
 .separator ;
 SELECT v.name AS Name, v.mac_address AS MAC, (v.latitude || ' ' || v.longitude) AS Coordinates , (v.site || ', ' || v.location || ', ' || v.province) AS Location, v.contact_email as User, v.zero_point as ZP, v.filter as Filter
 FROM tess_v AS v

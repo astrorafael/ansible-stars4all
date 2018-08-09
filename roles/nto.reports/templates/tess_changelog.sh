@@ -37,7 +37,7 @@ else
 fi
 
 
-sqlite3 -csv -header ${dbase} <<EOF > ${out_dir}/${name}.csv"
+sqlite3 -csv -header ${dbase} <<EOF > ${out_dir}/${name}.csv
 .separator ;
 SELECT i.name AS Name, i.zero_point as ZP, i.filter as Filter, i.valid_since AS Since, i.valid_until AS Until, i.valid_state AS 'Change State'
 FROM tess_t AS i
